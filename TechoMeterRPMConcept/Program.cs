@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks.Sources;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Threading.Tasks.Sources;
 
 namespace TerminalAppTest
 {
@@ -6,6 +8,7 @@ namespace TerminalAppTest
     {
 
         public static int score;
+        public static int RPM_;
         public static readonly object padlock = new object();
 
         static void Main(string[] args)
@@ -14,7 +17,7 @@ namespace TerminalAppTest
             Program program = new Program();
             bool Booter = true;
 
-
+            Task.Run(() => Dashboard());
             Task.Run(() => RPM());
             while (true)
             {
@@ -34,7 +37,7 @@ namespace TerminalAppTest
                             {
                                 score++;
                             }
-                            Console.WriteLine(score.ToString());
+                            //Console.WriteLine(score.ToString());
                         }
 
                     }
@@ -60,6 +63,36 @@ namespace TerminalAppTest
 
             }
         }
+
+
+        private static void Display(string RPM,int x = 25, int y = 15)
+        {
+            Console.SetCursorPosition(x, y);
+            Console.Write(RPM);
+        }
+
+        private static void Dashboard()
+        {
+            while (true)
+            {
+
+
+                Console.SetCursorPosition(30, 5);
+                Console.Write($"RPM : {RPM_.ToString()}K");
+
+                Console.SetCursorPosition(0,0);
+                Console.WriteLine("        -----------------------------------------------------------------------------------------");
+                for (int i = 0; i < 9; i++)
+                {
+                    Console.WriteLine("        |                                                                                       |");
+                }
+                Console.WriteLine("        -----------------------------------------------------------------------------------------");
+
+                
+
+            }
+        } 
+
         private static void RPM()
         {
             while (true)
@@ -68,25 +101,25 @@ namespace TerminalAppTest
                 {
                     if (score <= 10)
                     {
-                        Console.WriteLine("RPM : 0k");
+                        RPM_ = 0;
                     }
                     if (score > 10 && score <= 20)
                     {
-                        Console.WriteLine("RPM : 3k");
+                        RPM_ = 3;
                     }
                     if (score > 24 && score <= 70)
                     {
-                        Console.WriteLine("RPM : 6k");
+                        RPM_ = 6;
                     }
                     if (score > 70 && score <= 100)
                     {
                         Console.ForegroundColor = ConsoleColor.White;
-                        Console.WriteLine("RPM : 8k");
+                        RPM_ = 8;
                     }
                     if (score > 100 && score <= 132)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine("RPM : 9k");
+                        RPM_ = 9;
                     }
                 }
             }
